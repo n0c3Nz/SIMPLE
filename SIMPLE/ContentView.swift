@@ -21,17 +21,15 @@ struct ContentView: View {
             HStack {
                 HStack {
                     Image(systemName: "memorychip")
+                        .padding(.top, 12.0)
                         .font(.largeTitle)
                         .foregroundColor(.green)
                     Text("RAM Usage")
                         .font(.largeTitle)
+                        .padding(.top, 12.0)
                 }
-                .padding(.leading, 15.0)
-                .padding(.trailing, 5.0) // Espacio entre "RAM Usage" y el divisor
-
-                Divider()
-                    .frame(width: 0.0, height: 40) // Ajusta la altura según sea necesario
-                    .padding(.horizontal, 2.0) // Espacio alrededor del divisor
+                .padding([.top, .leading], 15.0)
+                .padding([.top, .trailing], 5.0) // Espacio entre "RAM Usage" y el divisor
 
                 Spacer()
 
@@ -39,7 +37,8 @@ struct ContentView: View {
                     EmptyView()
                 }
                 .toggleStyle(SmallPinToggleStyle())
-                .padding(.trailing, 38.0)
+                .padding([.top, .trailing], 31.0)
+                .padding(.trailing, 7.0)
             }
 
             Chart {
@@ -58,6 +57,7 @@ struct ContentView: View {
                         series: .value("Type", "Wired Memory")
                     )
                     .foregroundStyle(Color.orange)
+                    .lineStyle(StrokeStyle(lineWidth: 3, dash: [5, 3])) // Línea discontinua
                 }
                 ForEach(appMemoryData) { data in
                     LineMark(
@@ -65,7 +65,7 @@ struct ContentView: View {
                         y: .value("Apps Memory Usage", data.usage),
                         series: .value("Type", "Apps Memory")
                     )
-                    .foregroundStyle(Color.blue)
+                    .foregroundStyle(Color(red: 0.7, green: 1, blue: 0.1)) // Valores entre 0 y 1
                 }
                 ForEach(compressedMemoryData) { data in
                     LineMark(
@@ -73,7 +73,7 @@ struct ContentView: View {
                         y: .value("Compressed Memory Usage", data.usage),
                         series: .value("Type", "Compressed Memory")
                     )
-                    .foregroundStyle(Color.purple)
+                    .foregroundStyle(Color(hue: 0.541, saturation: 0.489, brightness: 0.699)) // Valores entre 0 y 1
                 }
             }
             .chartYScale(domain: 0.0...100.0)
@@ -102,7 +102,7 @@ struct ContentView: View {
             VStack(spacing: 10) {
                 VStack(spacing: 5) {
                     HStack {
-                        Text("Used Memory")
+                        HoverableText(text: "Used", description: "This is the total memory used by the system.")
                             .foregroundColor(.green)
                         Spacer()
                         Text("\(getSystemUsedMemory(), specifier: "%.2f") GB")
@@ -111,37 +111,37 @@ struct ContentView: View {
                     .background(Color.gray.opacity(0.2))
                     
                     HStack {
-                        Text("Apps Memory")
-                            .foregroundColor(.blue)
+                        HoverableText(text: "Apps", description: "This is the memory used by all running applications.")
+                            .foregroundColor(Color(red: 0.7, green: 1, blue: 0.1)) // Valores entre 0 y 1
                         Spacer()
                         Text("\(getAppMemory(), specifier: "%.2f") GB")
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color(red: 0.7, green: 1, blue: 0.1)) // Valores entre 0 y 1
                     }
                     HStack {
-                        Text("Wired Memory")
+                        HoverableText(text: "Wired", description: "This is the memory that cannot be paged out to disk.")
                             .foregroundColor(.orange)
                         Spacer()
                         Text("\(getSystemWiredMemory(), specifier: "%.2f") GB")
                             .foregroundColor(.orange)
                     }
                     HStack {
-                        Text("Compressed Memory")
-                            .foregroundColor(.purple)
+                        HoverableText(text: "Compressed", description: "This is the memory that is compressed to save space.")
+                            .foregroundColor(Color(hue: 0.541, saturation: 0.489, brightness: 0.699)) // Valores entre 0 y 1
                         Spacer()
                         Text("\(getCompressedMemory(), specifier: "%.2f") GB")
-                            .foregroundColor(.purple)
+                            .foregroundColor(Color(hue: 0.541, saturation: 0.489, brightness: 0.699)) // Valores entre 0 y 1
                     }
                 }
                 Divider()
-                    .padding(.vertical, 10)
+                    .padding(.vertical, 5)
                 VStack(spacing: 5) {
                     HStack {
-                        Text("Cache")
+                        HoverableText(text: "Cache", description: "This is the memory used for caching data.")
                         Spacer()
                         Text("\(getCacheMemory(), specifier: "%.2f") GB")
                     }
                     HStack {
-                        Text("Swap")
+                        HoverableText(text: "Swap", description: "This is the amount of data swapped to disk.")
                         Spacer()
                         Text("\(getSwapMemory(), specifier: "%.2f") MB")
                     }
@@ -151,9 +151,10 @@ struct ContentView: View {
             
             Text("© 2024 Made with ♥ by c3nz.")
                 .font(.footnote)
-                .padding(.top, 7.0)
+                .padding(.bottom, 17.0)
+                .frame(height: 35.0)
         }
-        .frame(minWidth: 623, minHeight: 520)
+        .frame(minWidth: 623, minHeight: 530)
         .onAppear {
             startTimer()
         }

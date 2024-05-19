@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		190E4BCD2BFA499700542D5E /* HoverableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190E4BCC2BFA499700542D5E /* HoverableText.swift */; };
 		1970CABA2BF8F74A0099A7FB /* SIMPLEApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1970CAB92BF8F74A0099A7FB /* SIMPLEApp.swift */; };
 		1970CABC2BF8F74A0099A7FB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1970CABB2BF8F74A0099A7FB /* ContentView.swift */; };
 		1970CABE2BF8F74B0099A7FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1970CABD2BF8F74B0099A7FB /* Assets.xcassets */; };
@@ -14,7 +15,6 @@
 		1970CACC2BF8F74B0099A7FB /* SIMPLETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1970CACB2BF8F74B0099A7FB /* SIMPLETests.swift */; };
 		1970CAD62BF8F74B0099A7FB /* SIMPLEUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1970CAD52BF8F74B0099A7FB /* SIMPLEUITests.swift */; };
 		1970CAD82BF8F74B0099A7FB /* SIMPLEUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1970CAD72BF8F74B0099A7FB /* SIMPLEUITestsLaunchTests.swift */; };
-		1970CAE52BF8FA6A0099A7FB /* getUsedMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1970CAE42BF8FA6A0099A7FB /* getUsedMemory.swift */; };
 		1970CAE92BF907820099A7FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1970CAE82BF907820099A7FB /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		190E4BCC2BFA499700542D5E /* HoverableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HoverableText.swift; path = ../../../../HoverableText.swift; sourceTree = "<group>"; };
 		1970CAB62BF8F74A0099A7FB /* SIMPLE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SIMPLE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1970CAB92BF8F74A0099A7FB /* SIMPLEApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIMPLEApp.swift; sourceTree = "<group>"; };
 		1970CABB2BF8F74A0099A7FB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -47,7 +48,6 @@
 		1970CAD12BF8F74B0099A7FB /* SIMPLEUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SIMPLEUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1970CAD52BF8F74B0099A7FB /* SIMPLEUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIMPLEUITests.swift; sourceTree = "<group>"; };
 		1970CAD72BF8F74B0099A7FB /* SIMPLEUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIMPLEUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		1970CAE42BF8FA6A0099A7FB /* getUsedMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = getUsedMemory.swift; path = ../../../../getUsedMemory.swift; sourceTree = "<group>"; };
 		1970CAE82BF907820099A7FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../../../../AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -102,7 +102,7 @@
 				1970CAB92BF8F74A0099A7FB /* SIMPLEApp.swift */,
 				1970CAE82BF907820099A7FB /* AppDelegate.swift */,
 				1970CABB2BF8F74A0099A7FB /* ContentView.swift */,
-				1970CAE42BF8FA6A0099A7FB /* getUsedMemory.swift */,
+				190E4BCC2BFA499700542D5E /* HoverableText.swift */,
 				1970CABD2BF8F74B0099A7FB /* Assets.xcassets */,
 				1970CAC22BF8F74B0099A7FB /* SIMPLE.entitlements */,
 				1970CABF2BF8F74B0099A7FB /* Preview Content */,
@@ -267,8 +267,8 @@
 			files = (
 				1970CAE92BF907820099A7FB /* AppDelegate.swift in Sources */,
 				1970CABC2BF8F74A0099A7FB /* ContentView.swift in Sources */,
-				1970CAE52BF8FA6A0099A7FB /* getUsedMemory.swift in Sources */,
 				1970CABA2BF8F74A0099A7FB /* SIMPLEApp.swift in Sources */,
+				190E4BCD2BFA499700542D5E /* HoverableText.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
