@@ -13,7 +13,7 @@ struct ContentView: View {
     @State private var compressedMemoryData: [MemoryUsage] = []
     @State private var timer: Timer?
     @State private var isOnTop: Bool = false // Estado para el interruptor "on top"
-    @State private var displayInGB: Bool = false // Estado para cambiar entre GB y porcentaje
+    @State private var displayInGB: Bool = true // Mostrar en GB por defecto
     private let totalMemory: Double = getTotalMemory()
     
     var body: some View {
@@ -104,33 +104,52 @@ struct ContentView: View {
                     HStack {
                         HoverableText(text: "Used", description: "This is the total memory used by the system.")
                             .foregroundColor(.green)
+                            .onTapGesture {
+                                displayInGB.toggle()
+                                updateMemoryUsageDisplay()
+                            }
                         Spacer()
-                        Text("\(getSystemUsedMemory(), specifier: "%.2f") GB")
+                        Text(memoryUsage)
                             .foregroundColor(.green)
                     }
-                    .background(Color.gray.opacity(0.2))
+                    .background(Color.green.opacity(0.2))
                     
                     HStack {
                         HoverableText(text: "Apps", description: "This is the memory used by all running applications.")
                             .foregroundColor(Color(red: 0.7, green: 1, blue: 0.1)) // Valores entre 0 y 1
+                            .onTapGesture {
+                                displayInGB.toggle()
+                                updateMemoryUsageDisplay()
+                            }
                         Spacer()
-                        Text("\(getAppMemory(), specifier: "%.2f") GB")
+                        Text(appMemoryUsage)
                             .foregroundColor(Color(red: 0.7, green: 1, blue: 0.1)) // Valores entre 0 y 1
                     }
+                    .background(Color(red: 0.7, green: 1, blue: 0.1).opacity(0.07))
                     HStack {
                         HoverableText(text: "Wired", description: "This is the memory that cannot be paged out to disk.")
                             .foregroundColor(.orange)
+                            .onTapGesture {
+                                displayInGB.toggle()
+                                updateMemoryUsageDisplay()
+                            }
                         Spacer()
-                        Text("\(getSystemWiredMemory(), specifier: "%.2f") GB")
+                        Text(wiredMemoryUsage)
                             .foregroundColor(.orange)
                     }
+                    .background(Color.orange.opacity(0.07))
                     HStack {
                         HoverableText(text: "Compressed", description: "This is the memory that is compressed to save space.")
                             .foregroundColor(Color(hue: 0.541, saturation: 0.489, brightness: 0.699)) // Valores entre 0 y 1
+                            .onTapGesture {
+                                displayInGB.toggle()
+                                updateMemoryUsageDisplay()
+                            }
                         Spacer()
-                        Text("\(getCompressedMemory(), specifier: "%.2f") GB")
+                        Text(compressedMemoryUsage)
                             .foregroundColor(Color(hue: 0.541, saturation: 0.489, brightness: 0.699)) // Valores entre 0 y 1
                     }
+                    .background(Color(red: 0, green: 1, blue: 0.9).opacity(0.07))
                 }
                 Divider()
                     .padding(.vertical, 5)
@@ -216,15 +235,15 @@ struct ContentView: View {
         let compressedMemoryPercentage = (compressedMemory / totalMemory) * 100.0
 
         if displayInGB {
-            memoryUsage = String(format: "Used Memory: %.2f GB", usedMemory)
-            wiredMemoryUsage = String(format: "Wired Memory: %.2f GB", wiredMemory)
-            appMemoryUsage = String(format: "Apps Memory: %.2f GB", appMemory)
-            compressedMemoryUsage = String(format: "Compressed Memory: %.2f GB", compressedMemory)
+            memoryUsage = String(format: "%.2f GB", usedMemory)
+            wiredMemoryUsage = String(format: "%.2f GB", wiredMemory)
+            appMemoryUsage = String(format: "%.2f GB", appMemory)
+            compressedMemoryUsage = String(format: "%.2f GB", compressedMemory)
         } else {
-            memoryUsage = String(format: "Used Memory: %.2f%%", usedMemoryPercentage)
-            wiredMemoryUsage = String(format: "Wired Memory: %.2f%%", wiredMemoryPercentage)
-            appMemoryUsage = String(format: "Apps Memory: %.2f%%", appMemoryPercentage)
-            compressedMemoryUsage = String(format: "Compressed Memory: %.2f%%", compressedMemoryPercentage)
+            memoryUsage = String(format: "%.2f%%", usedMemoryPercentage)
+            wiredMemoryUsage = String(format: "%.2f%%", wiredMemoryPercentage)
+            appMemoryUsage = String(format: "%.2f%%", appMemoryPercentage)
+            compressedMemoryUsage = String(format: "%.2f%%", compressedMemoryPercentage)
         }
     }
 
@@ -257,10 +276,9 @@ struct ContentView: View {
         let activeMemory = Double(stats.active_count) * Double(vm_page_size) / 1_073_741_824 // Convertimos a GB
         let wiredMemory = Double(stats.wire_count) * Double(vm_page_size) / 1_073_741_824 // Convertimos a GB
         let compressedMemory = Double(stats.compressor_page_count) * Double(vm_page_size) / 1_073_741_824 // Convertimos a GB
-        let cacheMemory = (Double(stats.speculative_count) + Double(stats.external_page_count)) * Double(vm_page_size) / 1_073_741_824 // Convertimos a GB
 
         // Excluir memoria inactiva del cálculo
-        let usedMemory = activeMemory + wiredMemory + compressedMemory + cacheMemory
+        let usedMemory = activeMemory + wiredMemory + compressedMemory
         return min(usedMemory, totalMemory) // Asegurarse de que no exceda la memoria total
     }
 
