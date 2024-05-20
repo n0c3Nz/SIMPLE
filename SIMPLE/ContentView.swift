@@ -14,8 +14,9 @@ struct ContentView: View {
     @State private var timer: Timer?
     @State private var isOnTop: Bool = false // Estado para el interruptor "on top"
     @State private var displayInGB: Bool = true // Mostrar en GB por defecto
+    @State private var maxTime: Double = 30  // Agrega un estado para el tiempo máximo visible
     private let totalMemory: Double = getTotalMemory()
-    
+
     var body: some View {
         VStack {
             HStack {
@@ -44,7 +45,7 @@ struct ContentView: View {
             Chart {
                 ForEach(memoryData) { data in
                     LineMark(
-                        x: .value("Time", data.time.timeIntervalSinceNow),
+                        x: .value("Time", Date().timeIntervalSince(data.time)),
                         y: .value("Memory Usage", data.usage),
                         series: .value("Type", "Used Memory")
                     )
@@ -52,7 +53,7 @@ struct ContentView: View {
                 }
                 ForEach(wiredMemoryData) { data in
                     LineMark(
-                        x: .value("Time", data.time.timeIntervalSinceNow),
+                        x: .value("Time", Date().timeIntervalSince(data.time)),
                         y: .value("Wired Memory Usage", data.usage),
                         series: .value("Type", "Wired Memory")
                     )
@@ -61,7 +62,7 @@ struct ContentView: View {
                 }
                 ForEach(appMemoryData) { data in
                     LineMark(
-                        x: .value("Time", data.time.timeIntervalSinceNow),
+                        x: .value("Time", Date().timeIntervalSince(data.time)),
                         y: .value("Apps Memory Usage", data.usage),
                         series: .value("Type", "Apps Memory")
                     )
@@ -69,7 +70,7 @@ struct ContentView: View {
                 }
                 ForEach(compressedMemoryData) { data in
                     LineMark(
-                        x: .value("Time", data.time.timeIntervalSinceNow),
+                        x: .value("Time", Date().timeIntervalSince(data.time)),
                         y: .value("Compressed Memory Usage", data.usage),
                         series: .value("Type", "Compressed Memory")
                     )
@@ -77,14 +78,14 @@ struct ContentView: View {
                 }
             }
             .chartYScale(domain: 0.0...100.0)
-            .chartXScale(domain: -30...0)
+            .chartXScale(domain: 0...maxTime)  // Usa el valor dinámico para la escala
             .chartXAxis {
-                AxisMarks(values: Array(stride(from: -30, through: 0, by: 5))) { value in
+                AxisMarks(values: Array(stride(from: 0, through: maxTime, by: 5))) { value in
                     AxisGridLine()
                     AxisTick()
                     AxisValueLabel() {
                         if let intValue = value.as(Int.self) {
-                            Text("\(abs(intValue))s")
+                            Text("\(intValue)s")
                         }
                     }
                 }
@@ -103,64 +104,80 @@ struct ContentView: View {
                 VStack(spacing: 5) {
                     HStack {
                         HoverableText(text: "Used", description: "This is the total memory used by the system.")
-                            .foregroundColor(.green)
+                            .padding(.trailing, 45.0)
+                            .frame(width: 79.0, height: 0.0)
                             .onTapGesture {
                                 displayInGB.toggle()
                                 updateMemoryUsageDisplay()
                             }
+                            
+                        ProgressBarBackground(usage: getSystemUsedMemory() / totalMemory, color: .green)
+                            .frame(width: 420, height: 20) // Ajustar el tamaño según sea necesario
                         Spacer()
                         Text(memoryUsage)
                             .foregroundColor(.green)
                     }
-                    .background(Color.green.opacity(0.2))
-                    
+
                     HStack {
                         HoverableText(text: "Apps", description: "This is the memory used by all running applications.")
-                            .foregroundColor(Color(red: 0.7, green: 1, blue: 0.1)) // Valores entre 0 y 1
+                            .padding(.trailing, 47.0)
+                            .frame(width: 80.0)
                             .onTapGesture {
                                 displayInGB.toggle()
                                 updateMemoryUsageDisplay()
                             }
+
+                            .frame(height: 20)
+                        ProgressBarBackground(usage: getAppMemory() / totalMemory, color: Color(red: 0.7, green: 1, blue: 0.1))
+                            .frame(width: 420.0, height: 20) // Ajustar el tamaño según sea necesario
                         Spacer()
                         Text(appMemoryUsage)
                             .foregroundColor(Color(red: 0.7, green: 1, blue: 0.1)) // Valores entre 0 y 1
                     }
-                    .background(Color(red: 0.7, green: 1, blue: 0.1).opacity(0.07))
+
                     HStack {
                         HoverableText(text: "Wired", description: "This is the memory that cannot be paged out to disk.")
-                            .foregroundColor(.orange)
+                            .padding(.trailing, 44.0)
+                            .frame(width: 80.0)
                             .onTapGesture {
                                 displayInGB.toggle()
                                 updateMemoryUsageDisplay()
                             }
+                            .frame(height: 20)
+                        ProgressBarBackground(usage: getSystemWiredMemory() / totalMemory, color: .orange)
+                            .frame(width: 420.0, height: 20) // Ajustar el tamaño según sea necesario
                         Spacer()
                         Text(wiredMemoryUsage)
                             .foregroundColor(.orange)
                     }
-                    .background(Color.orange.opacity(0.07))
+
                     HStack {
                         HoverableText(text: "Compressed", description: "This is the memory that is compressed to save space.")
-                            .foregroundColor(Color(hue: 0.541, saturation: 0.489, brightness: 0.699)) // Valores entre 0 y 1
+                            .padding(.trailing, 2.0)
                             .onTapGesture {
                                 displayInGB.toggle()
                                 updateMemoryUsageDisplay()
                             }
+                            .frame(width: 80.0, height: 20)
+                        ProgressBarBackground(usage: getCompressedMemory() / totalMemory, color: Color(hue: 0.541, saturation: 0.489, brightness: 0.699))
+                            .frame(width: 420.0, height: 20) // Ajustar el tamaño según sea necesario
                         Spacer()
                         Text(compressedMemoryUsage)
                             .foregroundColor(Color(hue: 0.541, saturation: 0.489, brightness: 0.699)) // Valores entre 0 y 1
                     }
-                    .background(Color(red: 0, green: 1, blue: 0.9).opacity(0.07))
                 }
                 Divider()
                     .padding(.vertical, 5)
                 VStack(spacing: 5) {
                     HStack {
-                        HoverableText(text: "Cache", description: "This is the memory used for caching data.")
+                        HoverableText(text: "Cached", description: "This is the memory used for caching data.")
+                            .padding(.trailing, 36.0)
                         Spacer()
                         Text("\(getCacheMemory(), specifier: "%.2f") GB")
                     }
                     HStack {
                         HoverableText(text: "Swap", description: "This is the amount of data swapped to disk.")
+                            .padding(.trailing, 49.0)
                         Spacer()
                         Text("\(getSwapMemory(), specifier: "%.2f") MB")
                     }
@@ -219,6 +236,11 @@ struct ContentView: View {
 
         if compressedMemoryData.count > 30 {
             compressedMemoryData.removeFirst()
+        }
+
+        // Asegúrate de que el tiempo máximo sea el más reciente
+        if let firstData = memoryData.first {
+            maxTime = currentTime.timeIntervalSince(firstData.time)
         }
 
         updateMemoryUsageDisplay()
@@ -380,6 +402,26 @@ struct MemoryUsage: Identifiable {
     let id = UUID()
     let time: Date
     let usage: Double
+}
+
+struct ProgressBarBackground: View {
+    var usage: Double
+    var color: Color
+    private let cornerRadius: CGFloat = 5.0 // Define el valor del radio de las esquinas aquí
+    private let height: CGFloat = 10.0 // Define la altura aquí
+
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                Rectangle()
+                    .fill(color)
+                    .frame(width: CGFloat(usage) * geometry.size.width, height: height) // Aplicar la altura
+                    .opacity(0.5)
+                    .cornerRadius(cornerRadius) // Aplicar el radio de las esquinas
+            }
+        }
+        .frame(height: height) // Establecer la altura del contenedor GeometryReader
+    }
 }
 
 struct SmallPinToggleStyle: ToggleStyle {
