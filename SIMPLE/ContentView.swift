@@ -104,8 +104,8 @@ struct ContentView: View {
                 VStack(spacing: 5) {
                     HStack {
                         HoverableText(text: "Used", description: "This is the total memory used by the system.")
-                            .padding(.trailing, 45.0)
-                            .frame(width: 79.0, height: 0.0)
+                            .padding(.trailing, 43.0)
+                            .frame(width: 75.0, height: 0.0)
                             .onTapGesture {
                                 displayInGB.toggle()
                                 updateMemoryUsageDisplay()
@@ -113,15 +113,19 @@ struct ContentView: View {
                             
                         ProgressBarBackground(usage: getSystemUsedMemory() / totalMemory, color: .green)
                             .frame(width: 420, height: 20) // Ajustar el tamaño según sea necesario
-                        Spacer()
+                        
                         Text(memoryUsage)
+                            .fontWeight(.semibold)
                             .foregroundColor(.green)
-                    }
-
+                            .multilineTextAlignment(.trailing)
+                            .padding(.trailing, 24.0)
+                            .frame(width: 100.0)
+                    }.padding(.leading, 23.0)
+                        .background(Color.gray.opacity(0.1)).cornerRadius(15)
                     HStack {
                         HoverableText(text: "Apps", description: "This is the memory used by all running applications.")
-                            .padding(.trailing, 47.0)
-                            .frame(width: 80.0)
+                            .padding(.trailing, 24.0)
+                            .frame(width: 98.0)
                             .onTapGesture {
                                 displayInGB.toggle()
                                 updateMemoryUsageDisplay()
@@ -130,15 +134,20 @@ struct ContentView: View {
                             .frame(height: 20)
                         ProgressBarBackground(usage: getAppMemory() / totalMemory, color: Color(red: 0.7, green: 1, blue: 0.1))
                             .frame(width: 420.0, height: 20) // Ajustar el tamaño según sea necesario
-                        Spacer()
+                        
                         Text(appMemoryUsage)
+                            .font(.subheadline)
+                            .fontWeight(.regular)
                             .foregroundColor(Color(red: 0.7, green: 1, blue: 0.1)) // Valores entre 0 y 1
+                            .multilineTextAlignment(.trailing)
+                            .padding(.trailing, 19.0)
+                            .frame(width: 100.0)
                     }
 
                     HStack {
                         HoverableText(text: "Wired", description: "This is the memory that cannot be paged out to disk.")
-                            .padding(.trailing, 44.0)
-                            .frame(width: 80.0)
+                            .padding(.trailing, 21.0)
+                            .frame(width: 98.0)
                             .onTapGesture {
                                 displayInGB.toggle()
                                 updateMemoryUsageDisplay()
@@ -146,24 +155,34 @@ struct ContentView: View {
                             .frame(height: 20)
                         ProgressBarBackground(usage: getSystemWiredMemory() / totalMemory, color: .orange)
                             .frame(width: 420.0, height: 20) // Ajustar el tamaño según sea necesario
-                        Spacer()
+                        
                         Text(wiredMemoryUsage)
+                            .font(.subheadline)
+                            .fontWeight(.regular)
                             .foregroundColor(.orange)
+                            .multilineTextAlignment(.trailing)
+                            .padding(.trailing, 19.0)
+                            .frame(width: 100.0)
                     }
 
                     HStack {
                         HoverableText(text: "Compressed", description: "This is the memory that is compressed to save space.")
-                            .padding(.trailing, 2.0)
+                            .padding(.leading, 21.0)
                             .onTapGesture {
                                 displayInGB.toggle()
                                 updateMemoryUsageDisplay()
                             }
-                            .frame(width: 80.0, height: 20)
+                            .frame(width: 100.0, height: 20)
                         ProgressBarBackground(usage: getCompressedMemory() / totalMemory, color: Color(hue: 0.541, saturation: 0.489, brightness: 0.699))
                             .frame(width: 420.0, height: 20) // Ajustar el tamaño según sea necesario
-                        Spacer()
+                        
                         Text(compressedMemoryUsage)
+                            .font(.subheadline)
+                            .fontWeight(.regular)
                             .foregroundColor(Color(hue: 0.541, saturation: 0.489, brightness: 0.699)) // Valores entre 0 y 1
+                            .multilineTextAlignment(.trailing)
+                            .padding(.trailing, 19.0)
+                            .frame(width: 100.0)
                     }
                 }
                 Divider()
@@ -171,15 +190,23 @@ struct ContentView: View {
                 VStack(spacing: 5) {
                     HStack {
                         HoverableText(text: "Cached", description: "This is the memory used for caching data.")
-                            .padding(.trailing, 36.0)
+                            .padding(.leading, 11.0)
+                            .frame(width: 60.0)
                         Spacer()
                         Text("\(getCacheMemory(), specifier: "%.2f") GB")
+                            .font(.callout)
+                            .multilineTextAlignment(.trailing)
+                            .padding(.trailing, 29.0)
                     }
                     HStack {
                         HoverableText(text: "Swap", description: "This is the amount of data swapped to disk.")
-                            .padding(.trailing, 49.0)
+                            .padding(.trailing, 3.0)
+                            .frame(width: 60.0)
                         Spacer()
                         Text("\(getSwapMemory(), specifier: "%.2f") MB")
+                            .font(.callout)
+                            .multilineTextAlignment(.trailing)
+                            .padding(.trailing, 29.0)
                     }
                 }
             }
@@ -190,7 +217,7 @@ struct ContentView: View {
                 .padding(.bottom, 17.0)
                 .frame(height: 35.0)
         }
-        .frame(minWidth: 623, minHeight: 530)
+        .frame(minWidth: 650, minHeight: 530)
         .onAppear {
             startTimer()
         }
