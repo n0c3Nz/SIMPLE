@@ -12,8 +12,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // Create the window and set the content view.
         window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 320, height: 520),
-            styleMask: [.titled, .closable, .miniaturizable], // Exclude .resizable
+            contentRect: NSRect(x: 0, y: 0, width: 320, height: 555),
+            styleMask: [.titled, .closable, .miniaturizable, .resizable], // Exclude .resizable
             backing: .buffered, defer: false)
         window.center()
         window.setFrameAutosaveName("Main Window")
