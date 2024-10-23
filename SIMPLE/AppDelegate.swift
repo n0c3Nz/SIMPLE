@@ -1,11 +1,12 @@
 import Cocoa
 import SwiftUI
 
-
+// The AppDelegate class is responsible for managing the application's lifecycle events.
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     var window: NSWindow!
 
+    // This method is called when the application has finished launching.
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView()
@@ -21,6 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.makeKeyAndOrderFront(nil)
     }
 
+    // This method is called when the application is about to terminate.
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }

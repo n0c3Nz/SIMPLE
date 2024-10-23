@@ -1,6 +1,7 @@
 import SwiftUI
 import Charts
 
+// The MemoryChartView struct is responsible for displaying a chart of memory usage over time.
 struct MemoryChartView: View {
     var memoryData: [MemoryUsage]
     var wiredMemoryData: [MemoryUsage]
@@ -9,6 +10,7 @@ struct MemoryChartView: View {
     var maxTime: Double
 
     var body: some View {
+        // The Chart view displays the memory usage data as a line chart.
         Chart {
             ForEach(memoryData) { data in
                 LineMark(

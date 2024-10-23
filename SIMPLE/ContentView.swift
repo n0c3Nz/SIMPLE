@@ -2,8 +2,7 @@ import SwiftUI
 import AppKit
 import Charts
 
-
-
+// The ContentView struct is responsible for displaying the main user interface of the application.
 struct ContentView: View {
     @State private var memoryUsage: String = "Fetching..."
     @State private var wiredMemoryUsage: String = "Fetching..."
@@ -85,6 +84,7 @@ struct ContentView: View {
         }
     }
 
+    // This method fetches the current memory usage and updates the memory data arrays.
     func fetchMemoryUsage() {
         let usedMemory = getSystemUsedMemory()
         let wiredMemory = getSystemWiredMemory()
@@ -128,6 +128,8 @@ struct ContentView: View {
 
         updateMemoryUsageDisplay()
     }
+
+    // This method updates the memory usage display based on the current memory usage values.
     func updateMemoryUsageDisplay() {
         let usedMemory = getSystemUsedMemory()
         let wiredMemory = getSystemWiredMemory()
@@ -151,17 +153,20 @@ struct ContentView: View {
         }
     }
     
+    // This method starts a timer to fetch memory usage data at regular intervals.
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             fetchMemoryUsage()
         }
     }
 
+    // This method stops the timer that fetches memory usage data.
     func stopTimer() {
         timer?.invalidate()
         timer = nil
     }
 
+    // This method sets the application window to be always on top or not based on the isOnTop state.
     private func setWindowOnTop() {
         if let window = NSApplication.shared.windows.first {
             window.level = isOnTop ? .floating : .normal

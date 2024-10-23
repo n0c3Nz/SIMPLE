@@ -1,6 +1,8 @@
 import SwiftUI
 
+// The SmallPinToggleStyle struct is responsible for providing a custom toggle style with a pin icon.
 struct SmallPinToggleStyle: ToggleStyle {
+    // The makeBody method creates the view for the toggle.
     func makeBody(configuration: Configuration) -> some View {
         HStack {
             configuration.label
