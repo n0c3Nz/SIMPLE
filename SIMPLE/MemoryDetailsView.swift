@@ -1,5 +1,6 @@
 import SwiftUI
 
+// The MemoryDetailsView struct is responsible for displaying detailed memory usage information.
 struct MemoryDetailsView: View {
     @Binding var memoryUsage: String
     @Binding var wiredMemoryUsage: String
@@ -151,7 +152,7 @@ struct MemoryDetailsView: View {
         }
     }
     
-
+    // This method updates the memory usage display based on the current memory usage values.
     func updateMemoryUsageDisplay() {
         guard !isResizing else { return }
         

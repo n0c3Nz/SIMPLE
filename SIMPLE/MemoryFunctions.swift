@@ -1,6 +1,7 @@
 import Foundation
 import AppKit
 
+// This function returns the total amount of used memory in GB.
 func getSystemUsedMemory() -> Double {
     var stats = vm_statistics64()
     var count = mach_msg_type_number_t(MemoryLayout<vm_statistics64_data_t>.stride / MemoryLayout<integer_t>.stride)
@@ -23,6 +24,7 @@ func getSystemUsedMemory() -> Double {
     return min(usedMemory, getTotalMemory()) // Asegurarse de que no exceda la memoria total
 }
 
+// This function returns the total amount of wired memory in GB.
 func getSystemWiredMemory() -> Double {
     var stats = vm_statistics64()
     var count = mach_msg_type_number_t(MemoryLayout<vm_statistics64_data_t>.stride / MemoryLayout<integer_t>.stride)
@@ -41,6 +43,7 @@ func getSystemWiredMemory() -> Double {
     return wiredMemory
 }
 
+// This function returns the total amount of cache memory in GB.
 func getCacheMemory() -> Double {
     var stats = vm_statistics64()
     var count = mach_msg_type_number_t(MemoryLayout<vm_statistics64_data_t>.stride / MemoryLayout<integer_t>.stride)
@@ -59,6 +62,7 @@ func getCacheMemory() -> Double {
     return cacheMemory
 }
 
+// This function returns the total amount of swap memory in MB.
 func getSwapMemory() -> Double {
     var xswUsage = xsw_usage()
     var size = MemoryLayout<xsw_usage>.size
@@ -70,6 +74,7 @@ func getSwapMemory() -> Double {
     return swapUsed
 }
 
+// This function returns the total amount of memory used by applications in GB.
 func getAppMemory() -> Double {
     var stats = vm_statistics64()
     var count = mach_msg_type_number_t(MemoryLayout<vm_statistics64_data_t>.stride / MemoryLayout<integer_t>.stride)
@@ -88,6 +93,7 @@ func getAppMemory() -> Double {
     return appMemory
 }
 
+// This function returns the total amount of compressed memory in GB.
 func getCompressedMemory() -> Double {
     var stats = vm_statistics64()
     var count = mach_msg_type_number_t(MemoryLayout<vm_statistics64_data_t>.stride / MemoryLayout<integer_t>.stride)
@@ -106,6 +112,7 @@ func getCompressedMemory() -> Double {
     return compressedMemory
 }
 
+// This function returns the total amount of physical memory in GB.
 func getTotalMemory() -> Double {
     return Double(ProcessInfo.processInfo.physicalMemory) / 1_073_741_824 // Convertimos a GB
 }
